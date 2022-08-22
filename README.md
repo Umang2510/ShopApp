@@ -5,3 +5,4 @@ An app which shows how State management concept works in flutter and how this so
 models - Contains dart classes and structure of data.
 Screens - Contains the different screens of app.
 Widgets - Contains the widgets which displayed on the screens. 
+providers - Contains the providers for data sharing and state management.

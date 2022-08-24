@@ -4,7 +4,7 @@ import '../models/products.dart';
 
 // Mixin - keyword 'with'- this does not inherit or create instence of inherited class but add the features of that class or we can say inheritance lite.
 class ProductsProvider with ChangeNotifier {
-  List<Product> _item = [
+  List<Product> _items = [
     Product(
       id: 'p1',
       title: 'Red Shirt',
@@ -43,6 +43,10 @@ class ProductsProvider with ChangeNotifier {
   //... spread operator level up the item from list
   List<Product> get items {
     return [...items];
+  }
+
+  Product findByID(String id) {
+    return _items.firstWhere((prod) => prod.id == id);
   }
 
   void addProduct() {

@@ -42,7 +42,7 @@ class ProductsProvider with ChangeNotifier {
   //this will only return one element from the list so whole list of item don't get edited
   //... spread operator level up the item from list
   List<Product> get items {
-    return [...items];
+    return [..._items];
   }
 
   Product findByID(String id) {

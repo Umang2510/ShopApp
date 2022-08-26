@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/products.dart';
+import 'products.dart';
 
 // Mixin - keyword 'with'- this does not inherit or create instence of inherited class but add the features of that class or we can say inheritance lite.
 class ProductsProvider with ChangeNotifier {

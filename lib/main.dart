@@ -12,10 +12,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //using the Provider above level of child
     return ChangeNotifierProvider(
-      // provided by Provider package
       //only child which listening this will rebuild
+      //automatically cleans data when its not required 
+
+      //ChangeNotifierProvider.value
+      //value constructor is used when our provider doesn't depend on context
+      //value: ProductsProvider(),
+
+      // when you have to give data, object to ChangNotifier it is good to use create
+      // or in other words when you are creating a new instance it is good to use create
       create: (context) =>
-          ProductsProvider(), // return new instance of provided class
+          ProductsProvider(), //return new instance of provided class
+
       child: MaterialApp(
         title: 'MyShop',
         theme: ThemeData(

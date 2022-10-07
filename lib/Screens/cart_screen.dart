@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/cart.dart';
+//here we have two classes of same name so we have to methos to deal with
+
+// here dart only import the cart not CartItem
+import '../providers/cart.dart' show Cart;
+//import '../Widgets/cart_item.dart' as ci;
+import '../Widgets/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key key}) : super(key: key);
@@ -48,6 +53,17 @@ class CartScreen extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: ListView.builder(
+                itemCount: cart.item.length,
+                //ci.CartItem
+                itemBuilder: (ctx, i) => CartItem(
+                    cart.item.values.toList()[i].id,
+                    cart.item.values.toList()[i].price,
+                    cart.item.values.toList()[i].quantity,
+                    cart.item.values.toList()[i].title)),
           )
         ],
       ),

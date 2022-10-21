@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-//here we have two classes of same name so we have to methos to deal with
+//here we have two classes of same name so we have to methods to deal with
 
 // here dart only import the cart not CartItem
 import '../providers/cart.dart' show Cart;
 //import '../Widgets/cart_item.dart' as ci;
 import '../Widgets/cart_item.dart';
+import '../providers/orders.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key key}) : super(key: key);
@@ -46,7 +47,11 @@ class CartScreen extends StatelessWidget {
                   ),
                   TextButton(
                     child: Text('Order Now'),
-                    onPressed: () {},
+                    onPressed: () {
+                      Provider.of<Orders>(context, listen: false).addOrder(
+                          cart.item.values.toList(), cart.totalAmount);
+                      cart.clear();
+                    },
                     style: TextButton.styleFrom(
                         foregroundColor: Theme.of(context).primaryColor),
                   ),

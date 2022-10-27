@@ -8,7 +8,19 @@ class EditProductScreen extends StatefulWidget {
 }
 
 class _EditProductScreenState extends State<EditProductScreen> {
+  /// [FocusNode] must have to dispose when we leave a screen or does not require
+  /// because it stick around in memory and will lead to a memory leak😣
   final _priceFocusNode = FocusNode();
+  final _descFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _priceFocusNode.dispose();
+    _descFocusNode.dispose();
+    super.dispose(); // should be at last line in dispose()
+    //while in initState super.initState should be first line
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,15 +37,24 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   // go to next input
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (_) {
-                    FocusScope.of(context).requestFocus(_priceFocusNode)
+                    FocusScope.of(context).requestFocus(_priceFocusNode);
                   },
                 ),
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Price'),
-                  // go to next input
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.number,
                   focusNode: _priceFocusNode,
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_descFocusNode);
+                  },
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(labelText: 'Description'),
+                  maxLines: 4,
+                  maxLength: 150,
+                  keyboardType: TextInputType.multiline,
+                  focusNode: _descFocusNode,
                 ),
               ],
             ),

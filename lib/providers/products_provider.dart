@@ -45,9 +45,10 @@ class ProductsProvider with ChangeNotifier {
     // if (_showFavoritesOnly) {
     //   return _items.where((prodItem) => prodItem.isFavorite).toList();
     // } else {
-      return [..._items];
-    }
-  List<Product> get favoriteItems{
+    return [..._items];
+  }
+
+  List<Product> get favoriteItems {
     return _items.where((prodItem) => prodItem.isFavorite).toList();
   }
 
@@ -65,8 +66,14 @@ class ProductsProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void addProduct() {
-    // _item.add(value);
+  void addProduct(Product localProduct) {
+    final newProduct = Product(
+        id: DateTime.now().toString(),
+        title: localProduct.title,
+        description: localProduct.description,
+        price: localProduct.price,
+        imageURL: localProduct.imageURL);
+    _items.add(newProduct);
     /*let widget know about the update we did or notify that somthing has change in data
     widgets which are listening to this class are then rebuilt and get the latest data*/
     notifyListeners();

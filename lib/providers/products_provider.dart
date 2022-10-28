@@ -78,4 +78,14 @@ class ProductsProvider with ChangeNotifier {
     widgets which are listening to this class are then rebuilt and get the latest data*/
     notifyListeners();
   }
+
+  void updateProduct(String id, Product newProduct) {
+    final prodIndex = _items.indexWhere((prod) => prod.id == id);
+    if (prodIndex >= 0) {
+      _items[prodIndex] = newProduct;
+      notifyListeners();
+    } else {
+      print('...');
+    }
+  }
 }

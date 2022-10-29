@@ -74,25 +74,33 @@ class ProductsProvider with ChangeNotifier {
       'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
       '/products.json',
     );
-    http.post(url,
-        body: json.encode({
-          'title': localProduct.title,
-          'description': localProduct.description,
-          'price': localProduct.price,
-          'id': localProduct.id,
-          'imageUrl': localProduct.imageURL,
-          'isFavorite': localProduct.isFavorite,
-        }));
-    final newProduct = Product(
-        id: DateTime.now().toString(),
-        title: localProduct.title,
-        description: localProduct.description,
-        price: localProduct.price,
-        imageURL: localProduct.imageURL);
-    _items.add(newProduct);
-    /*let widget know about the update we did or notify that somthing has change in data
+
+    //Future
+    // here then() is provided by future then executes a code when certain action is done
+    http
+        .post(url,
+            body: json.encode({
+              'title': localProduct.title,
+              'description': localProduct.description,
+              'price': localProduct.price,
+              'id': localProduct.id,
+              'imageUrl': localProduct.imageURL,
+              'isFavorite': localProduct.isFavorite,
+            }))
+        .then((response) {
+      //executes when response is available
+      //print(json.decode(response.body));
+      final newProduct = Product(
+          id: json.decode(response.body)['name'],
+          title: localProduct.title,
+          description: localProduct.description,
+          price: localProduct.price,
+          imageURL: localProduct.imageURL);
+      _items.add(newProduct);
+      /*let widget know about the update we did or notify that somthing has change in data
     widgets which are listening to this class are then rebuilt and get the latest data*/
-    notifyListeners();
+      notifyListeners();
+    });
   }
 
   void updateProduct(String id, Product newProduct) {

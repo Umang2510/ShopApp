@@ -69,7 +69,7 @@ class ProductsProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void addProduct(Product localProduct) {
+  Future<void> addProduct(Product localProduct) {
     final url = Uri.https(
       'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
       '/products.json',
@@ -77,7 +77,7 @@ class ProductsProvider with ChangeNotifier {
 
     //Future
     // here then() is provided by future then executes a code when certain action is done
-    http
+    return http
         .post(url,
             body: json.encode({
               'title': localProduct.title,

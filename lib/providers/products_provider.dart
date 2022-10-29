@@ -87,9 +87,15 @@ class ProductsProvider with ChangeNotifier {
               'imageUrl': localProduct.imageURL,
               'isFavorite': localProduct.isFavorite,
             }))
+        //then() returns a new Future so we can also add another then()
+        //e.g. then().then()
         .then((response) {
       //executes when response is available
       //print(json.decode(response.body));
+      //this concept is called chaining
+      //Future can also return a error so you can use catchError
+      // then().catchError((error) => )
+      //catchError also return error so you can add then() after catchError
       final newProduct = Product(
           id: json.decode(response.body)['name'],
           title: localProduct.title,

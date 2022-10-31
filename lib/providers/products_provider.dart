@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 
 import 'products.dart';
@@ -106,6 +107,9 @@ class ProductsProvider with ChangeNotifier {
       /*let widget know about the update we did or notify that somthing has change in data
     widgets which are listening to this class are then rebuilt and get the latest data*/
       notifyListeners();
+    }).catchError((error) {
+      print(error);
+      throw error;
     });
   }
 

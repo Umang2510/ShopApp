@@ -70,33 +70,36 @@ class ProductsProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  Future<void> addProduct(Product localProduct) {
+  Future<void> addProduct(Product localProduct) async {
+    //wrap the all code in Future
     final url = Uri.https(
       'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
-      '/products.json',
+      '/products.on',
     );
 
     //Future
     // here then() is provided by future then executes a code when certain action is done
-    return http
-        .post(url,
-            body: json.encode({
-              'title': localProduct.title,
-              'description': localProduct.description,
-              'price': localProduct.price,
-              'id': localProduct.id,
-              'imageUrl': localProduct.imageURL,
-              'isFavorite': localProduct.isFavorite,
-            }))
-        //then() returns a new Future so we can also add another then()
-        //e.g. then().then()
-        .then((response) {
+    //return No need to return because now it will automatically retrun future
+    try {
+      final response = await http.post(url,
+          body: json.encode({
+            'title': localProduct.title,
+            'description': localProduct.description,
+            'price': localProduct.price,
+            'id': localProduct.id,
+            'imageUrl': localProduct.imageURL,
+            'isFavorite': localProduct.isFavorite,
+          }));
+      //then() returns a new Future so we can also add another then()
+      //e.g. then().then()
+      //.then((response) {
       //executes when response is available
       //print(json.decode(response.body));
       //this concept is called chaining
       //Future can also return a error so you can use catchError
       // then().catchError((error) => )
       //catchError also return error so you can add then() after catchError
+
       final newProduct = Product(
           id: json.decode(response.body)['name'],
           title: localProduct.title,
@@ -107,11 +110,15 @@ class ProductsProvider with ChangeNotifier {
       /*let widget know about the update we did or notify that somthing has change in data
     widgets which are listening to this class are then rebuilt and get the latest data*/
       notifyListeners();
-    }).catchError((error) {
+    } catch (error) {
       print(error);
-      throw error;
-    });
-  }
+      rethrow;
+    }
+  } //).catchError((error) {
+  //print(error);
+  //throw error;
+  // });
+  //}
 
   void updateProduct(String id, Product newProduct) {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);

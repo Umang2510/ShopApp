@@ -70,11 +70,24 @@ class ProductsProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
+  Future<void> fecthAndSetProduct() async {
+    final url = Uri.https(
+      'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
+      '/products.json',
+    );
+    try {
+      final response = await http.get(url);
+      print(json.decode(response.body));
+    } catch (error) {
+      rethrow;
+    }
+  }
+
   Future<void> addProduct(Product localProduct) async {
     //wrap the all code in Future
     final url = Uri.https(
       'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
-      '/products.on',
+      '/products.json',
     );
 
     //Future

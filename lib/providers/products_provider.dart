@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 
 import 'products.dart';
+import '../models/http_exception.dart';
 
 // Mixin - keyword 'with'- this does not inherit or create instence of inherited class but add the features of that class or we can say inheritance lite.
 class ProductsProvider with ChangeNotifier {
@@ -167,22 +168,23 @@ class ProductsProvider with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
+  Future<void> deleteProduct(String id) async {
     final url = Uri.https(
       'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
       '/products/$id.json',
     );
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     var existingProduct = _items[existingProductIndex];
-
-    http.delete(url).then((response) {
-      if (response.statusCode >= 400) {}
-      existingProduct = null;
-    }).catchError((_) {
-      _items.insert(existingProductIndex, existingProduct);
-      notifyListeners();
-    });
     _items.removeAt(existingProductIndex);
     notifyListeners();
+
+    final response = await http.delete(url);
+
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      throw Exception('Could not delete product.');
+    }
+    existingProduct = null;
   }
 }

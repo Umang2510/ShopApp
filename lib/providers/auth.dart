@@ -26,6 +26,23 @@ class Auth with ChangeNotifier {
         },
       ),
     );
+    //print(json.decode(response.body));
+  }
+
+  Future<void> logIn(String email, String password) async {
+    final url = Uri.https(
+        'identitytoolkit.googleapis.com', 'accounts:signInWithPassword', mykey);
+
+    final response = await http.post(
+      url,
+      body: json.encode(
+        {
+          'email': email,
+          'password': password,
+          'returnSecureToken': true,
+        },
+      ),
+    );
     print(json.decode(response.body));
   }
 }

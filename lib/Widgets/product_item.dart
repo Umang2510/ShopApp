@@ -57,7 +57,7 @@ class ProductItem extends StatelessWidget {
                 ),
               ));
             },
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
         child: GestureDetector(

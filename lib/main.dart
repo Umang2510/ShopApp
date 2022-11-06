@@ -10,6 +10,7 @@ import 'Screens/cart_screen.dart';
 import 'screens/orders_screen.dart';
 import 'screens/user_product.dart';
 import 'Screens/edit_product_screen.dart';
+import 'Screens/auth_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -42,11 +43,14 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'MyShop',
         theme: ThemeData(
-          primarySwatch: Colors.purple,
-          accentColor: Colors.orange,
+          appBarTheme: const AppBarTheme(color: Colors.purple),
+          primaryColor: Colors.purple,
+          colorScheme: Theme.of(context)
+              .colorScheme
+              .copyWith(secondary: Colors.deepOrange),
           fontFamily: 'Lato',
         ),
-        home: ProductsOverviewScreen(),
+        home: AuthScreen(),
         routes: {
           ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
           CartScreen.routeName: (context) => const CartScreen(),

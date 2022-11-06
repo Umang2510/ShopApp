@@ -79,8 +79,8 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           ),
           Consumer<Cart>(
             builder: (_, cart, ch) => Badge(
-              child: ch,
               value: cart.itemCount.toString(),
+              child: ch,
             ),
             child: IconButton(
               icon: const Icon(
@@ -95,7 +95,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       ),
       drawer: const AppDrawer(),
       body: _isLoading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : ProductsGrid(_showOnlyFavorites),

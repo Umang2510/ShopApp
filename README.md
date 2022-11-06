@@ -1,7 +1,9 @@
 # ShopApp
 An E-commerce app in flutter.
-Here we mainly focus on working app and not on UI, I know that UI is not that much eye catching, So you can change UI as per your choice.
+
 An app which shows how State management concept works in flutter and how this solves the problem also we work with user input, forms, authentication and https request.
+
+Here we mainly focus on working app and not on UI, I know that UI is not that much eye catching, So you can change UI as per your choice.
 
 models - Contains dart classes and structure of data.
 Screens - Contains the different screens of app.

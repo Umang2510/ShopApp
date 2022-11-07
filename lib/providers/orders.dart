@@ -21,15 +21,21 @@ class OrderItem {
 class Orders with ChangeNotifier {
   List<OrderItem> _orders = [];
 
+  final String authToken;
+  Orders(this.authToken, this._orders);
+
   List<OrderItem> get orders {
     return [..._orders];
   }
 
   Future<void> fetchAndSetOrders() async {
+    var param = {
+      'auth': authToken,
+    };
     final url = Uri.https(
-      'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
-      '/orders.json',
-    );
+        'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
+        '/orders.json',
+        param);
     final response = await http.get(url);
     final List<OrderItem> loadedOrders = [];
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -55,11 +61,14 @@ class Orders with ChangeNotifier {
   }
 
   void addOrder(List<CartItem> cartProducts, double total) async {
+    var param = {
+      'auth': authToken,
+    };
     final timeStamp = DateTime.now();
     final url = Uri.https(
-      'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
-      '/orders.json',
-    );
+        'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
+        '/orders.json',
+        param);
     final respose = await http.post(url,
         body: json.encode({
           'amount': total,

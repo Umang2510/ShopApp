@@ -20,13 +20,16 @@ class Product with ChangeNotifier {
       @required this.imageURL,
       this.isFavorite = false});
 
-  Future<void> toggleFavoriteStatus() async {
+  Future<void> toggleFavoriteStatus(String token) async {
+    var param = {
+      'auth': token,
+    };
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
     final url = Uri.https(
         'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
-        '/products/$id.json');
+        '/products/$id.json', param);
     try {
       final response = await http.patch(url,
           body: json.encode({

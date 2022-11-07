@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../Screens/product_detail_screen.dart';
 import '../providers/products.dart';
 import '../providers/cart.dart';
+import '../providers/auth.dart';
 
 class ProductItem extends StatelessWidget {
   //const ProductItem({Key key}) : super(key: key);
@@ -19,6 +20,7 @@ class ProductItem extends StatelessWidget {
         listen:
             false); // when use provider.of it will rebuild entire build method
     final cart = Provider.of<Cart>(context, listen: false);
+    final authtoken = Provider.of<Auth>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -30,7 +32,7 @@ class ProductItem extends StatelessWidget {
               icon: Icon(
                   product.isFavorite ? Icons.favorite : Icons.favorite_border),
               onPressed: () {
-                product.toggleFavoriteStatus();
+                product.toggleFavoriteStatus(authtoken.token);
               },
               color: Theme.of(context).colorScheme.secondary,
             ),

@@ -45,7 +45,6 @@ class ProductsProvider with ChangeNotifier {
   ];
   final String authToken;
   ProductsProvider(this.authToken, this._items);
-
   var _showFavoritesOnly = false;
   //this will only return one element from the list so whole list of item don't get edited
   //... spread operator level up the item from list
@@ -156,13 +155,16 @@ class ProductsProvider with ChangeNotifier {
   //}
 
   void updateProduct(String id, Product newProduct) async {
+    var param = {
+      'auth': authToken,
+    };
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
 
     if (prodIndex >= 0) {
       final url = Uri.https(
-        'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
-        '/products/$id.json',
-      );
+          'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
+          '/products/$id.json',
+          param);
       http.patch(url,
           body: json.encode({
             'title': newProduct.title,
@@ -178,10 +180,13 @@ class ProductsProvider with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String id) async {
+    var param = {
+      'auth': authToken,
+    };
     final url = Uri.https(
-      'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
-      '/products/$id.json',
-    );
+        'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
+        '/products/$id.json',
+        param);
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     var existingProduct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);

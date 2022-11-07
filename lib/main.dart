@@ -22,7 +22,12 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => Auth()),
-        ChangeNotifierProvider(create: (context) => ProductsProvider()),
+        ChangeNotifierProxyProvider<Auth, ProductsProvider>(
+          create: (context) => ProductsProvider(null, []),
+          update: (context, auth, previousProducts) => ProductsProvider(
+              auth.token,
+              previousProducts == null ? [] : previousProducts.items),
+        ),
         ChangeNotifierProvider(create: (context) => Cart()),
         ChangeNotifierProvider(
           create: ((context) => Orders()),

@@ -32,7 +32,7 @@ class ProductItem extends StatelessWidget {
               onPressed: () {
                 product.toggleFavoriteStatus();
               },
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
             ),
           ),
           title: Text(
@@ -57,7 +57,7 @@ class ProductItem extends StatelessWidget {
                 ),
               ));
             },
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.secondary,
           ),
         ),
         child: GestureDetector(

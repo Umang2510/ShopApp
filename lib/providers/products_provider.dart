@@ -43,6 +43,9 @@ class ProductsProvider with ChangeNotifier {
     //         'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
     //   ),
   ];
+  final String authToken;
+  ProductsProvider(this.authToken, this._items);
+
   var _showFavoritesOnly = false;
   //this will only return one element from the list so whole list of item don't get edited
   //... spread operator level up the item from list
@@ -72,10 +75,13 @@ class ProductsProvider with ChangeNotifier {
   // }
 
   Future<void> fetchAndSetProducts() async {
+    var param = {
+      'auth': authToken,
+    };
     final url = Uri.https(
-      'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
-      '/products.json',
-    );
+        'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
+        '/products.json',
+        param);
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -98,11 +104,14 @@ class ProductsProvider with ChangeNotifier {
   }
 
   Future<void> addProduct(Product localProduct) async {
+    var param = {
+      'auth': authToken,
+    };
     //wrap the all code in Future
     final url = Uri.https(
-      'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
-      '/products.json',
-    );
+        'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
+        '/products.json',
+        param);
     //Future
     // here then() is provided by future then executes a code when certain action is done
     //return No need to return because now it will automatically retrun future

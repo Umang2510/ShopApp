@@ -15,6 +15,19 @@ class Auth with ChangeNotifier {
     'key': 'AIzaSyDaGL59OEQ1ZRLHkOK4qFjTkTvzDHZe-pk',
   };
 
+  bool get isAuth {
+    return token != null;
+  }
+
+  String get token {
+    if (_expirydate != null &&
+        _expirydate.isAfter(DateTime.now()) &&
+        _token != null) {
+      return _token;
+    }
+    return null;
+  }
+
   Future<void> _authenticate(
       String email, String password, String urlSegment) async {
     final url = Uri.https('identitytoolkit.googleapis.com', urlSegment, mykey);
@@ -34,6 +47,11 @@ class Auth with ChangeNotifier {
       if (responseData['error'] != null) {
         throw HttpException(responseData['error']['message']);
       }
+      _token = responseData['idToken'];
+      _userId = responseData['localId'];
+      _expirydate = DateTime.now()
+          .add(Duration(seconds: int.parse(responseData['expiresIn'])));
+      notifyListeners();
     } catch (error) {
       return Future.error(error);
     }

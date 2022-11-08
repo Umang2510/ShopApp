@@ -44,7 +44,8 @@ class ProductsProvider with ChangeNotifier {
     //   ),
   ];
   final String authToken;
-  ProductsProvider(this.authToken, this._items);
+  final String userId;
+  ProductsProvider(this.authToken, this.userId, this._items);
   var _showFavoritesOnly = false;
   //this will only return one element from the list so whole list of item don't get edited
   //... spread operator level up the item from list
@@ -81,9 +82,17 @@ class ProductsProvider with ChangeNotifier {
         'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
         '/products.json',
         param);
+
+    final urlFav = Uri.https(
+        'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
+        '/userFav/$userId.json',
+        param);
+
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      final favResp = await http.get(urlFav);
+      final favData = json.decode(favResp.body);
       final List<Product> loadedProducts = [];
       extractedData.forEach((prodId, prodData) {
         loadedProducts.add(Product(
@@ -91,7 +100,7 @@ class ProductsProvider with ChangeNotifier {
           title: prodData['title'],
           description: prodData['description'],
           price: prodData['price'],
-          isFavorite: prodData['isFavorite'],
+          isFavorite: favData == null ? false : favData[prodId] ?? false, //?? check the value if it is null then return value written after that otherwise original value
           imageURL: prodData['imageUrl'],
         ));
       });
@@ -122,7 +131,6 @@ class ProductsProvider with ChangeNotifier {
             'price': localProduct.price,
             'id': localProduct.id,
             'imageUrl': localProduct.imageURL,
-            'isFavorite': localProduct.isFavorite,
           }));
       //then() returns a new Future so we can also add another then()
       //e.g. then().then()

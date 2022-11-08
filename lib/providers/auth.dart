@@ -15,6 +15,10 @@ class Auth with ChangeNotifier {
     'key': 'AIzaSyDaGL59OEQ1ZRLHkOK4qFjTkTvzDHZe-pk',
   };
 
+  String get userId {
+    return _userId;
+  }
+
   bool get isAuth {
     return token != null;
   }

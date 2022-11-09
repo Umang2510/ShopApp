@@ -74,10 +74,19 @@ class ProductsProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetProducts([bool filterbyUser = false]) async {
+    //[] make the parameter optional but have to provide default value
     var param = {
       'auth': authToken,
     };
+
+    if (filterbyUser) {
+      param = {
+        'auth': authToken,
+        'orderBy': json.encode('creatorId'),
+        'equalTo': json.encode(userId)
+      };
+    }
     final url = Uri.https(
         'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
         '/products.json',
@@ -100,7 +109,10 @@ class ProductsProvider with ChangeNotifier {
           title: prodData['title'],
           description: prodData['description'],
           price: prodData['price'],
-          isFavorite: favData == null ? false : favData[prodId] ?? false, //?? check the value if it is null then return value written after that otherwise original value
+          isFavorite: favData == null
+              ? false
+              : favData[prodId] ??
+                  false, //?? check the value if it is null then return value written after that otherwise original value
           imageURL: prodData['imageUrl'],
         ));
       });
@@ -131,6 +143,7 @@ class ProductsProvider with ChangeNotifier {
             'price': localProduct.price,
             'id': localProduct.id,
             'imageUrl': localProduct.imageURL,
+            'creatorID': userId,
           }));
       //then() returns a new Future so we can also add another then()
       //e.g. then().then()

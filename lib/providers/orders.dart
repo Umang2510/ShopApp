@@ -20,9 +20,10 @@ class OrderItem {
 
 class Orders with ChangeNotifier {
   List<OrderItem> _orders = [];
+  final String userId;
 
   final String authToken;
-  Orders(this.authToken, this._orders);
+  Orders(this.authToken, this.userId, this._orders);
 
   List<OrderItem> get orders {
     return [..._orders];
@@ -34,7 +35,7 @@ class Orders with ChangeNotifier {
     };
     final url = Uri.https(
         'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
-        '/orders.json',
+        '/orders/$userId.json',
         param);
     final response = await http.get(url);
     final List<OrderItem> loadedOrders = [];
@@ -67,7 +68,7 @@ class Orders with ChangeNotifier {
     final timeStamp = DateTime.now();
     final url = Uri.https(
         'shopapp-5381c-default-rtdb.asia-southeast1.firebasedatabase.app',
-        '/orders.json',
+        '/orders/$userId.json',
         param);
     final respose = await http.post(url,
         body: json.encode({

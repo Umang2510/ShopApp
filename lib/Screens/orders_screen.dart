@@ -58,7 +58,7 @@ class OrdersScreen extends StatelessWidget {
               );
             }
           }
-          return null;
+          return const Center(child: Text('No Orders'));
         },
       ),
     );

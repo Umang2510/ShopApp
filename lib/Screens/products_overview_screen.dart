@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../Widgets/product_grid.dart';
-import '../Widgets/badge.dart';
+import '../Widgets/badge.dart' as myBadge;
 import '../providers/cart.dart';
 import 'cart_screen.dart';
 import '../Widgets/app_drawer.dart';
@@ -78,7 +78,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             ],
           ),
           Consumer<Cart>(
-            builder: (_, cart, ch) => Badge(
+            builder: (_, cart, ch) => myBadge.Badge(
               value: cart.itemCount.toString(),
               child: ch,
             ),
